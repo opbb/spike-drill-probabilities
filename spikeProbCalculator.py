@@ -5,8 +5,6 @@ from numpy._typing import NDArray
 import datetime
 from math import comb, pow
 
-counter = 0
-
 # == SETUP VARS ==
 # The limit to the number of rolls this will brute force calculate.
 # (Needed to stop infinite recursion from the "Off course caught early" mishap you get on a roll of 13-15,
@@ -17,7 +15,7 @@ maxRolls: int = 100
 # This affects success prob cause more systems means less chance that the
 # spike drive is disabled by a power spike on a mishap roll of 6-8.
 # What exactly a "system" is is never defined, so its kinda up to the GM.
-totalSystems: int = 10
+totalSystems: int = 200
 
 # The drill distance in hexes. Affects DC and spikeDuration.
 drillDistance: int = 3
@@ -265,8 +263,6 @@ def calculateProbs() -> List[NDArray]:
     probs = calculateProbsRecursion(0,0,0)
     return probs
 
-counter = 0
-
 # Calculates the probability of each possible outcome given the current number of systems disable, what roll it is, and how much time has passed.
 # Uses memoization to not be O(n^3)
 def calculateProbsRecursion(systemsDisabled: int, rollNumber: int, spikeDurationsPassed: int) -> List[NDArray]:
@@ -276,9 +272,6 @@ def calculateProbsRecursion(systemsDisabled: int, rollNumber: int, spikeDuration
     # Check if we've calculated this previously'
     if argsString in memoizationTable:
         return memoizationTable[argsString].copy()
-
-    global counter
-    counter += 1
 
     probs = [
         outcomesTemplateArray.copy(),
@@ -405,7 +398,6 @@ print("Stop after ", str(maxRolls), " rolls, round percentages to ", str(roundTo
 print("Drive Rating: ", str(effectiveDriveRating), ", Drill Distance: ", str(drillDistance), " hexes, Spike Duration (days): ", str(round(spikeDuration, roundTo)), ", Total Systems: ", str(totalSystems))
 print("Drill DC: ", str(drillDC), ", Int/Pilot Check Mod: ", str(intPilotMod), ", Spike Check Success Probability: ", formatProbAsPercent(spikeCheckSuccessProb))
 print("Rutter Age: ", "Blind Punch" if rutterAge == None else str(rutterAge), ", course is being trimmed" if isTrimmingCourse else "", ", drill activation was rushed" if wasDrillActivationRushed else "")
-print("Unique cases: ", counter)
 print("")
 print("== SUCCESS STATS ==")
 print("Overall Prob: ", formatProbAsPercent(probs[outcomesListIndex][successIndex]))
