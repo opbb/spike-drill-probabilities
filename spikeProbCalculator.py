@@ -15,16 +15,16 @@ maxRolls: int = 100
 # This affects success prob cause more systems means less chance that the
 # spike drive is disabled by a power spike on a mishap roll of 6-8.
 # What exactly a "system" is is never defined, so its kinda up to the GM.
-totalSystems: int = 200
+totalSystems: int = 5
 
 # The drill distance in hexes. Affects DC and spikeDuration.
 drillDistance: int = 3
 
 # The drive rating of the ships drive BEFORE any modifiers are applied.
-baseDriveRating: int = 2
+baseDriveRating: int = 1
 
 # The pilot's level in the Pilot skill. Use -1 for no levels
-pilotSkillLevel = 0
+pilotSkillLevel = -1
 
 # The pilot's int modifier
 pilotIntMod = 0
@@ -36,7 +36,7 @@ miscSpikeDCMods = 0
 
 # The age of the rutter in Estude days. Is the primary determiner of spike difficulty.
 # A value of None represents no rutter, ie. a blind punch.
-rutterAge: None | float = 100
+rutterAge: None | float = 60
 
 # Whether or not the pilot is trimming the course.
 # Trimming the course decreases spike duration, but increases the DC.
@@ -60,7 +60,7 @@ pilotStarfarerLevel: int = 0
 isUsingDrillCourseRegulator: bool = False
 
 # Whether or not the ship's drive has the Drill Velocity Upgrade mod.
-hasDrillVelocityUpgrade: bool = True
+hasDrillVelocityUpgrade: bool = False
 
 # The number of decimal places to round to in the output.
 # Only affects printed numbers, not the underlying data.
@@ -70,7 +70,7 @@ roundTo = 3
 
 # == CALCULATED VARS ==
 # The conversion from one earth day to one Es day.
-earthDaysToEsDays: float = 24.0 / 33.6
+earthDaysToEsDays: float = 1
 
 effectiveDriveRating: int = baseDriveRating + (1 if pilotStarfarerLevel == 2 else 0) + (1 if hasDrillVelocityUpgrade else 0) + (1 if isTrimmingCourse else 0)
 

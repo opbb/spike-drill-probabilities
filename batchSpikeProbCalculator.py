@@ -9,9 +9,11 @@ import tracemalloc
 import os
 
 # == BATCH SETTINGS ==
-minTotalSystems: int = 101
+minTotalSystems: int = 1
 maxTotalSystems: int = 130
-
+minMinSuccessfulRoll = 3
+maxMinSuccessfulRoll = 13
+totalRunsCounter: int = 0
 
 
 # == SETUP VARS ==
@@ -230,6 +232,9 @@ def calculateProbsRecursion(systemsDisabled: int, rollNumber: int, spikeDuration
     if argsString in memoizationTable:
         return memoizationTable[argsString].copy()
 
+    global totalRunsCounter
+    totalRunsCounter += 1
+
     probs = [
         outcomesTemplateArray.copy(),
         spikeDurationsPassedTemplateArray.copy(),
@@ -296,7 +301,7 @@ def calculateProbsRecursion(systemsDisabled: int, rollNumber: int, spikeDuration
     if nonSpikeSystemsFunctional not in recoverableFailSystemsDisabledMemoizationDict:
         caseValues = np.array(systemsDisabledTemplateList)
         for numToDisable in range(0, totalSystems - systemsDisabled, 1):
-            caseValues[numToDisable] = calculateProbOfXSystemsDisabledOnRecoverableFail(nonSpikeSystemsFunctional, numToDisable)
+            caseValues[systemsDisabled + numToDisable] += calculateProbOfXSystemsDisabledOnRecoverableFail(nonSpikeSystemsFunctional, numToDisable)
         recoverableFailSystemsDisabledMemoizationDict[nonSpikeSystemsFunctional] = caseValues
     probs[systemsDisabledProbsListIndex][recoverableFailIndex] = np.add(probs[systemsDisabledProbsListIndex][recoverableFailIndex], caseProb * recoverableFailSystemsDisabledMemoizationDict[nonSpikeSystemsFunctional])
 
@@ -343,38 +348,54 @@ def formatProbsObj(probs: List[NDArray]):
 startTime = datetime.datetime.now()
 
 probsData = {}
-
-dataFileName = 'allSpikeProbs.json'
+totalCases = (maxTotalSystems - minTotalSystems + 1) * (maxMinSuccessfulRoll - minMinSuccessfulRoll + 1) * 2
+currentCase = 0
 
 probsDirName = "spikeProbs"
 os.makedirs(os.getcwd() + '/' + probsDirName, exist_ok=True)
 
 for totalSys in range(minTotalSystems, maxTotalSystems + 1, 1):
     recoverableFailSystemsDisabledMemoizationDict = {}
-    for minSuccessfulRoll in range(3, 13, 1):
+    for minSuccessfulRoll in range(minMinSuccessfulRoll, maxMinSuccessfulRoll + 1, 1):
         for isUsingPrecogNavChamber in [False, True]:
-            sTime = datetime.datetime.now()
+            caseStartTime = datetime.datetime.now()
+            currentCase += 1
+
             probs = calculateProbs(totalSys=totalSys, minSuccessfulRoll=minSuccessfulRoll, isUsingPrecogNavChamber=isUsingPrecogNavChamber)
 
             # Make spike duration and system disabled probabilities based on the assumption that their outcome was selected.
-            normalizedSpikeDurations = probs[1] / probs[0][:, np.newaxis]
-            normalizedSystemsDisabled = probs[2] / probs[0][:, np.newaxis]
+            probs[spikeDurationProbsListIndex] = probs[spikeDurationProbsListIndex] / probs[outcomeProbsListIndex][:, np.newaxis]
+            probs[systemsDisabledProbsListIndex] = probs[systemsDisabledProbsListIndex] / probs[outcomeProbsListIndex][:, np.newaxis]
 
             probsKey = formatProbsObjKey(totalSys=totalSys, minSuccessfulRoll=minSuccessfulRoll, isUsingPrecogNavChamber=isUsingPrecogNavChamber)
             probsObj = formatProbsObj(probs)
 
+            # Clear previous line
+            print("                                                                                                                 ", end='\r')
+
             totalProbsSum = np.sum(probs[outcomeProbsListIndex])
-            eTime = datetime.datetime.now()
-            tDiff = eTime - sTime
-            print(probsKey, " total probs sum: ", round(totalProbsSum, 5), ", time: ", str(round(tDiff.total_seconds(), 3)))
+            if round(totalProbsSum, 5) != 1.0:
+                print("Case ", probsKey," total probs sum to ", totalProbsSum, " instead of 1.0!")
+
+            currentTime = datetime.datetime.now()
+            caseTime = currentTime - caseStartTime
+            totalTime = currentTime - startTime
+            print("case ", currentCase, "/", totalCases, "\ttotal time (s): ", "{:.3f}".format(round(totalTime.total_seconds(), 3)), "\tcase time (s): ", "{:.3f}".format(round(caseTime.total_seconds(), 3)), "\tcase key: ", probsKey, sep='', end='\r')
 
             probsData[probsKey] = probsObj
 
     # Store probs data in file once for every number of total systems
     # This minimizes slowdown due to excess memory use
+    #with open(probsDirName + '/' + str(totalSys) + 'TotalSystemsSpikeProbs.json', 'w') as f:
+    #    # dump data as json
+    #    json.dump(probsData, f, ensure_ascii=False, indent=4)
+    with open(probsDirName + '/' + str(totalSys) + 'TotalSystemsSpikeProbs.json', 'r') as f:
+        fileData = json.load(f)
+
+    fileData.update(probsData)
+
     with open(probsDirName + '/' + str(totalSys) + 'TotalSystemsSpikeProbs.json', 'w') as f:
-        # dump data as json
-        json.dump(probsData, f, ensure_ascii=False, indent=4)
+        json.dump(fileData, f, ensure_ascii=False, indent=4)
     del probsData
     probsData = {}
 
@@ -382,4 +403,5 @@ endTime = datetime.datetime.now()
 timeDiff = endTime - startTime
 
 print("== PROGRAM STATS ==")
+print("Total Runs Counter: ", totalRunsCounter)
 print("Total time (s): ", timeDiff.total_seconds())
