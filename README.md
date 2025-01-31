@@ -1,5 +1,7 @@
 # Spike-Drive Probabilities Calculator
-*TL;DR: A program to calculate the probability of catastrophic failure for a roll which can recur in a tabletop roleplaying game. [Click here](https://oliverbaerbenson.dev/spike-drive-probabilities-calculator) to use the calculator.*
+*[Click here](https://oliverbaerbenson.dev/spike-drive-probabilities-calculator) to use the calculator.*
+
+TL;DR: A program to calculate the probability of catastrophic failure for a roll which can recur in a tabletop roleplaying game.
 
 ### The situation
 I am in a [Stars Without Number](https://en.wikipedia.org/wiki/Stars_Without_Number) game, in which we are looking to make some very risky faster-than-light jumps (spike drills). I would like to know the probability that we come out of these jumps in one piece.
