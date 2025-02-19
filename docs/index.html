@@ -1,0 +1,1366 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Spike-Drill Probabilities</title>
+        <!-- The style.css file allows you to change the look of your web pages.
+         If you include the next line in all your web pages, they will all share the same look.
+         This makes it easier to make new pages for your site. -->
+        <link
+            href="swnStyle.css"
+            rel="stylesheet"
+            type="text/css"
+            media="all"
+        />
+    </head>
+    <body>
+        <h1 class="title">SPIKE-DRILL PROBABILITIES</h1>
+        <div class="fullscreen-container">
+            <div class="dynamic-halfscreen-container">
+                <div class="rounded-container">
+                    <h3 class="rounded-container-header">PILOT STATS</h3>
+                    <div class="rounded-container-body">
+                        <div class="container-table">
+                            <div class="container-table-row">
+                                <div class="container-table-row-label">
+                                    Intelligence Modifier:
+                                </div>
+                                <select
+                                    id="intMod"
+                                    name="intMod"
+                                    class="container-table-select"
+                                    onchange="intModChanged()"
+                                >
+                                    <option value="-2">-2</option>
+                                    <option value="-1">-1</option>
+                                    <option value="0" selected="selected">
+                                        0
+                                    </option>
+                                    <option value="1">+1</option>
+                                    <option value="2">+2</option>
+                                </select>
+                            </div>
+                            <div class="container-table-row">
+                                <div class="container-table-row-label">
+                                    Pilot Skill Level:
+                                </div>
+                                <select
+                                    id="pilotLvl"
+                                    name="pilotLvl"
+                                    class="container-table-select"
+                                    onchange="pilotLvlChanged()"
+                                >
+                                    <option value="-1" selected="selected">
+                                        None
+                                    </option>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                            <div class="container-table-row">
+                                <div class="container-table-row-label">
+                                    Starfarer Focus Level:
+                                </div>
+                                <select
+                                    id="starfarerLvl"
+                                    name="starfarerLvl"
+                                    class="container-table-select"
+                                    onchange="starfarerLvlChanged()"
+                                >
+                                    <option value="0" selected="selected">
+                                        None
+                                    </option>
+                                    <option value="1">Level 1</option>
+                                    <option value="2">Level 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-container-footer">
+                        <div class="container-table-row-label">
+                            Drill Check Modifier:
+                        </div>
+                        <div
+                            id="spikeDrillCheckMod"
+                            class="calculated-value"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+            <div class="dynamic-halfscreen-container">
+                <div class="rounded-container">
+                    <h3 class="rounded-container-header">SHIP STATS</h3>
+                    <div class="rounded-container-body">
+                        <div class="container-table">
+                            <div class="container-table-row">
+                                <div class="container-table-row-label">
+                                    Spike-Drive:
+                                </div>
+                                <select
+                                    id="spikeDrive"
+                                    name="spikeDrive"
+                                    class="container-table-select"
+                                    onchange="spikeDriveChanged()"
+                                >
+                                    <option value="1" selected="selected">
+                                        Drive-1
+                                    </option>
+                                    <option value="2">Drive-2</option>
+                                    <option value="3">Drive-3</option>
+                                    <option value="4">Drive-4</option>
+                                    <option value="5">Drive-5</option>
+                                    <option value="6">Drive-6</option>
+                                </select>
+                            </div>
+                            <div class="container-table-row">
+                                <div class="container-table-row-label">
+                                    Fittings/Mods:
+                                </div>
+                                <div class="container-table-row-options">
+                                    <div class="container-table-row-option">
+                                        <input
+                                            type="checkbox"
+                                            id="advNavComp"
+                                            name="advNavComp"
+                                            class="container-table-checkbox"
+                                            onchange="advNavCompChanged()"
+                                        />
+                                        <label
+                                            for="advNavComp"
+                                            class="container-table-checkbox-label"
+                                            >Advanced Nav Computer</label
+                                        >
+                                    </div>
+                                    <div class="container-table-row-option">
+                                        <input
+                                            type="checkbox"
+                                            id="drillCourseReg"
+                                            name="drillCourseReg"
+                                            class="container-table-checkbox"
+                                            onchange="drillCourseRegChanged()"
+                                        />
+                                        <label
+                                            for="drillCourseReg"
+                                            class="container-table-checkbox-label"
+                                            >Drill Course Regulator</label
+                                        >
+                                    </div>
+                                    <div class="container-table-row-option">
+                                        <input
+                                            type="checkbox"
+                                            id="precogNavChamber"
+                                            name="precogNavChamber"
+                                            class="container-table-checkbox"
+                                            onchange="precogNavChamberChanged()"
+                                        />
+                                        <label
+                                            for="precogNavChamber"
+                                            class="container-table-checkbox-label"
+                                            >Precog Nav Chamber</label
+                                        >
+                                    </div>
+                                    <div class="container-table-row-option">
+                                        <input
+                                            type="checkbox"
+                                            id="drillVelUpgrade"
+                                            name="drillVelUpgrade"
+                                            class="container-table-checkbox"
+                                            onchange="drillVelUpgradeChanged()"
+                                        />
+                                        <label
+                                            for="drillVelUpgrade"
+                                            class="container-table-checkbox-label"
+                                            >Drill Velocity Upgrade</label
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-table-row">
+                                <label for="totalSystems">
+                                    <div class="container-table-row-label">
+                                        Total Systems:
+                                    </div>
+                                </label>
+                                <input
+                                    id="totalSystems"
+                                    class="container-table-number-input"
+                                    value="5"
+                                    inputmode="numeric"
+                                    type="number"
+                                    min="1"
+                                    max="130"
+                                    step="1"
+                                    onchange="totalSystemsChanged()"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-container-footer">
+                        <div class="container-table-row-label">
+                            Effective Drive Rating:
+                        </div>
+                        <div class="columns-container">
+                            <div class="two-columns-left">
+                                <div class="calculated-value-label">
+                                    For distance
+                                </div>
+                                <div
+                                    id="effectiveDriveRatingDistance"
+                                    class="calculated-value"
+                                ></div>
+                            </div>
+                            <div class="two-columns-right">
+                                <div class="calculated-value-label">
+                                    For speed
+                                </div>
+                                <div
+                                    id="effectiveDriveRatingSpeed"
+                                    class="calculated-value"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dynamic-fullscreen-container">
+                <div class="rounded-container">
+                    <h3 class="rounded-container-header">DRILL DETAILS</h3>
+                    <div class="rounded-container-body">
+                        <div class="columns-container">
+                            <div class="two-columns-left">
+                                <div class="container-table-row">
+                                    <div class="container-table-row-label">
+                                        Rutter Age:
+                                    </div>
+                                    <select
+                                        id="rutterAge"
+                                        name="rutterAge"
+                                        class="container-table-select"
+                                        onchange="rutterAgeChanged()"
+                                    >
+                                        <option value="lessThanMonth">
+                                            Less than a month old
+                                        </option>
+                                        <option
+                                            value="monthToYear"
+                                            selected="selected"
+                                        >
+                                            A month to a year old
+                                        </option>
+                                        <option value="oneToFiveYears">
+                                            One to five years old
+                                        </option>
+                                        <option value="moreThanFiveYears">
+                                            More than 5 years old
+                                        </option>
+                                        <option value="blindPunch">
+                                            Totally uncharted
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="container-table-row">
+                                    <div class="container-table-row-label">
+                                        Drill Distance:
+                                    </div>
+                                    <select
+                                        id="drillDistance"
+                                        name="drillDistance"
+                                        class="container-table-select"
+                                        onchange="drillDistanceChanged()"
+                                    >
+                                        <option value="1">1 Hex</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="two-columns-right">
+                                <div class="container-table-row">
+                                    <div class="container-table-row-label">
+                                        Drill Circumstances:
+                                    </div>
+                                    <div class="container-table-row-options">
+                                        <div class="container-table-row-option">
+                                            <input
+                                                type="checkbox"
+                                                id="drillActivationRushed"
+                                                name="drillActivationRushed"
+                                                class="container-table-checkbox"
+                                                onchange="drillActivationRushedChanged()"
+                                            />
+                                            <label
+                                                for="drillActivationRushed"
+                                                class="container-table-checkbox-label"
+                                                >Drill activation rushed</label
+                                            >
+                                        </div>
+                                        <div class="container-table-row-option">
+                                            <input
+                                                type="checkbox"
+                                                id="trimmingCourse"
+                                                name="trimmingCourse"
+                                                class="container-table-checkbox"
+                                                onchange="trimmingCourseChanged()"
+                                            />
+                                            <label
+                                                for="trimmingCourse"
+                                                class="container-table-checkbox-label"
+                                                >Trimming the course</label
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-container-footer">
+                        <div class="columns-container">
+                            <div class="three-columns-left">
+                                <div class="container-table-row-label">
+                                    Drill Check DC:
+                                </div>
+                                <div
+                                    id="spikeDrillCheckDC"
+                                    class="calculated-value"
+                                ></div>
+                            </div>
+                            <div class="three-columns-middle">
+                                <div class="container-table-row-label">
+                                    Drill Check Success Chance:
+                                </div>
+                                <div
+                                    id="spikeDrillSuccessChance"
+                                    class="calculated-value"
+                                ></div>
+                            </div>
+                            <div class="three-columns-right">
+                                <div class="container-table-row-label">
+                                    Successful Drill Duration:
+                                </div>
+                                <div
+                                    id="drillDuration"
+                                    class="calculated-value"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dynamic-fullscreen-container">
+                <div class="rounded-container">
+                    <h3 class="rounded-container-header">PROBABILITIES</h3>
+                    <div
+                        class="rounded-container-footer"
+                        style="border-width: 0"
+                    >
+                        <div class="columns-container">
+                            <div class="three-columns-left">
+                                <h4 class="column-header">SUCCESS</h4>
+                                <div class="column-descriptor">
+                                    Arrive in the target system in one piece.<br />
+                                    (Check successful or roll 16-18 for drill
+                                    mishap)
+                                </div>
+                                <div class="container-table-row-label">
+                                    Total Probability:
+                                </div>
+                                <div
+                                    id="successTotalProb"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="doughnut-chart-container">
+                                    <div class="chart-container">
+                                        <canvas
+                                            id="successTotalProbChart"
+                                        ></canvas>
+                                    </div>
+                                </div>
+                                <div class="container-table-row-label">
+                                    Average Systems Disabled:
+                                </div>
+                                <div
+                                    id="successAvgSysDisabled"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="chart-container">
+                                    <canvas
+                                        id="successSysDisabledChart"
+                                    ></canvas>
+                                </div>
+                                <div class="container-table-row-label">
+                                    Average Total Duration:
+                                </div>
+                                <div
+                                    id="successAvgTotalDuration"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="chart-container">
+                                    <canvas
+                                        id="successDrillDurationsChart"
+                                    ></canvas>
+                                </div>
+                            </div>
+                            <div class="three-columns-middle">
+                                <h4 class="column-header">
+                                    RECOVERABLE FAILURE
+                                </h4>
+                                <div class="column-descriptor">
+                                    Emerge around nearest star, ship damaged.<br />
+                                    (roll 4-5 for drill mishap and drive not
+                                    disabled)
+                                </div>
+                                <div class="container-table-row-label">
+                                    Total Probability:
+                                </div>
+                                <div
+                                    id="recoverableFailureTotalProb"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="doughnut-chart-container">
+                                    <div class="chart-container">
+                                        <canvas
+                                            id="recoverableFailureTotalProbChart"
+                                        ></canvas>
+                                    </div>
+                                </div>
+                                <div class="container-table-row-label">
+                                    Average Systems Disabled:
+                                </div>
+                                <div
+                                    id="recoverableFailureAvgSysDisabled"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="chart-container">
+                                    <canvas
+                                        id="recoverableFailureSysDisabledChart"
+                                    ></canvas>
+                                </div>
+                                <div class="container-table-row-label">
+                                    Average Total Duration:
+                                </div>
+                                <div
+                                    id="recoverableFailureAvgTotalDuration"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="chart-container">
+                                    <canvas
+                                        id="recoverableFailureDrillDurationsChart"
+                                    ></canvas>
+                                </div>
+                            </div>
+                            <div class="three-columns-right">
+                                <h4 class="column-header">
+                                    CATASTROPHIC FAILURE
+                                </h4>
+                                <div class="column-descriptor">
+                                    Emerge around random star, all systems
+                                    destroyed.<br />
+                                    (roll 3 for drill mishap)
+                                </div>
+                                <div class="container-table-row-label">
+                                    Total Probability:
+                                </div>
+                                <div
+                                    id="catastrophicFailureTotalProb"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="doughnut-chart-container">
+                                    <div class="chart-container">
+                                        <canvas
+                                            id="catastrophicFailureTotalProbChart"
+                                        ></canvas>
+                                    </div>
+                                </div>
+                                <div class="container-table-row-label">
+                                    Systems Destroyed:
+                                </div>
+                                <div
+                                    id="catastrophicFailureAvgSysDisabled"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="chart-container">
+                                    <canvas
+                                        id="catastrophicFailureSysDisabledChart"
+                                    ></canvas>
+                                </div>
+                                <div
+                                    id="catastrophicFailureAvgTotalDuration"
+                                    class="calculated-value"
+                                ></div>
+                                <div class="container-table-row-label">
+                                    Drill Duration Probabilites:
+                                </div>
+                                <div class="chart-container">
+                                    <canvas
+                                        id="catastrophicFailureDrillDurationsChart"
+                                    ></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-note">
+                Probabilities were brute-forced to a depth of 100 rolls using
+                the script in
+                <a href="https://github.com/opbb/spikeDriveProbCalculator"
+                    >this GitHub repository</a
+                >. The charts were created using
+                <a href="https://www.chartjs.org/">Chart.js</a>. The fonts used
+                are
+                <a href="https://fonts2u.com/gayatriregular.font">Gayatri</a>
+                for the headers and
+                <a href="https://github.com/googlefonts/Crimson">CrimsonText</a>
+                for the body. The game system this is based on is
+                <a
+                    href="https://sine-nomine-publishing.myshopify.com/collections/stars-without-number"
+                    >Stars Without Number</a
+                >
+                by Kevin Crawford.
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const rutterAgeToModifier = {
+                lessThanMonth: -2,
+                monthToYear: 0,
+                oneToFiveYears: 1,
+                moreThanFiveYears: 2,
+                blindPunch: 6,
+            };
+            const minTotalSystems = 1;
+            const maxTotalSystems = 130;
+            const minDrillRange = 1;
+            const roundPercentagesTo = 3;
+            const drillDurationsChartCutoff = 25;
+            const outcomeNames = [
+                "success",
+                "recoverableFailure",
+                "catastrophicFailure",
+            ];
+            let effectiveDriveRatingDistance;
+            let effectiveDriveRatingSpeed;
+            let spikeDrillCheckMod;
+            let spikeDrillCheckDC;
+            let spikeDrillMinSuccessfulRoll;
+            let autoSuccessDCThreshhold;
+            let drillDuration;
+            let currentProbsFileNumber = -1; // Reset every refresh
+            let probsUpdateInProgress = false; // Semaphore to stop overlapping probs file requests causing race conditions.
+            let probsFile;
+            const autoSuccessProbs = {
+                success: {
+                    totalProb: 1,
+                    spikeDurationProbs: [0, 1],
+                    numSystemsDisabledProbs: [1],
+                },
+                recoverableFailure: {
+                    totalProb: 0,
+                    spikeDurationProbs: [0, 0],
+                    numSystemsDisabledProbs: [0],
+                },
+                catastrophicFailure: {
+                    totalProb: 0,
+                    spikeDurationProbs: [0, 0],
+                    numSystemsDisabledProbs: [0],
+                },
+            };
+            let probs;
+            const twoDSixOrGreaterProbs = [
+                1,
+                1,
+                36 / 36,
+                35 / 36,
+                33 / 36,
+                30 / 36,
+                26 / 36,
+                21 / 36,
+                15 / 36,
+                10 / 36,
+                6 / 36,
+                3 / 36,
+                1 / 36,
+                0,
+            ];
+
+            // Charts
+            Chart.defaults.font.size = 16;
+            Chart.defaults.font.family = "CrimsonText";
+            Chart.defaults.color = "white";
+            const successSysDisabledChart = createSystemsDisabledChart(
+                document.getElementById("successSysDisabledChart"),
+                false,
+            );
+            const recoverableFailureSysDisabledChart =
+                createSystemsDisabledChart(
+                    document.getElementById(
+                        "recoverableFailureSysDisabledChart",
+                    ),
+                    false,
+                );
+            const catastrophicFailureSysDisabledChart =
+                createSystemsDisabledChart(
+                    document.getElementById(
+                        "catastrophicFailureSysDisabledChart",
+                    ),
+                    true,
+                );
+            const successDrillDurationsChart = createDrillDurationsChart(
+                document.getElementById("successDrillDurationsChart"),
+            );
+            const recoverableFailureDrillDurationsChart =
+                createDrillDurationsChart(
+                    document.getElementById(
+                        "recoverableFailureDrillDurationsChart",
+                    ),
+                );
+            const catastrophicFailureDrillDurationsChart =
+                createDrillDurationsChart(
+                    document.getElementById(
+                        "catastrophicFailureDrillDurationsChart",
+                    ),
+                );
+            const successTotalProbChart = createTotalProbChart(
+                document.getElementById("successTotalProbChart"),
+                "success",
+            );
+            const recoverableFailureTotalProbChart = createTotalProbChart(
+                document.getElementById("recoverableFailureTotalProbChart"),
+                "recoverableFailure",
+            );
+            const catastrophicFailureTotalProbChart = createTotalProbChart(
+                document.getElementById("catastrophicFailureTotalProbChart"),
+                "catastrophicFailure",
+            );
+
+            // === VALUE UPDATE FUNCTIONS ===
+
+            function updateSpikeDrillCheckMod() {
+                intMod = Number(document.getElementById("intMod").value);
+                pilotLvl = Number(document.getElementById("pilotLvl").value);
+                hasStarfarerLvl2 =
+                    document.getElementById("starfarerLvl").value === "2";
+                spikeDrillCheckMod =
+                    intMod + pilotLvl * (hasStarfarerLvl2 ? 2 : 1);
+                document.getElementById("spikeDrillCheckMod").innerText =
+                    spikeDrillCheckMod;
+            }
+
+            function updateSpikeDrillCheckDC() {
+                rutterAge = document.getElementById("rutterAge").value;
+                rutterAgeMod = rutterAgeToModifier[rutterAge];
+                advNavCompMod =
+                    document.getElementById("advNavComp").checked &&
+                    (rutterAge === "lessThanMonth" ||
+                        rutterAge === "monthToYear")
+                        ? -2
+                        : 0;
+                drillDistanceMod = Math.floor(
+                    Number(document.getElementById("drillDistance").value) /
+                        2.0,
+                );
+                drillActivationRushedMod = document.getElementById(
+                    "drillActivationRushed",
+                ).checked
+                    ? 2
+                    : 0;
+                trimmingCourseMod = document.getElementById("trimmingCourse")
+                    .checked
+                    ? 2
+                    : 0;
+                spikeDrillCheckDC =
+                    7 +
+                    rutterAgeMod +
+                    advNavCompMod +
+                    drillDistanceMod +
+                    drillActivationRushedMod +
+                    trimmingCourseMod;
+                document.getElementById("spikeDrillCheckDC").innerText =
+                    spikeDrillCheckDC;
+            }
+
+            function updateSpikeDrillMinSuccessfulRoll() {
+                spikeDrillMinSuccessfulRoll = Math.max(
+                    Math.min(spikeDrillCheckDC - spikeDrillCheckMod, 13),
+                    2,
+                );
+            }
+
+            function updateSpikeDrillSuccessChance() {
+                spikeDrillSuccessChance = isAutoSuccess()
+                    ? "100%"
+                    : formatProbAsPercent(
+                          twoDSixOrGreaterProbs[spikeDrillMinSuccessfulRoll],
+                      );
+                document.getElementById("spikeDrillSuccessChance").innerText =
+                    spikeDrillSuccessChance;
+            }
+
+            function updateAutoSuccessDCThreshhold() {
+                hasPrecogNavChamber =
+                    document.getElementById("precogNavChamber").checked;
+                hasStarfarer =
+                    Number(document.getElementById("starfarerLvl").value) > 0;
+
+                if (hasStarfarer) {
+                    autoSuccessDCThreshhold = 10;
+                } else if (hasPrecogNavChamber) {
+                    autoSuccessDCThreshhold = 9;
+                } else {
+                    autoSuccessDCThreshhold = 6;
+                }
+            }
+
+            function updateEffectiveDriveRatings() {
+                spikeDriveRating = Number(
+                    document.getElementById("spikeDrive").value,
+                );
+                drillVelUpgrade = document.getElementById("drillVelUpgrade")
+                    .checked
+                    ? 1
+                    : 0;
+                starfarerLvl2 =
+                    document.getElementById("starfarerLvl").value === "2"
+                        ? 1
+                        : 0;
+                trimmingCourse = document.getElementById("trimmingCourse")
+                    .checked
+                    ? 1
+                    : 0;
+
+                effectiveDriveRatingDistance =
+                    Math.min(spikeDriveRating + drillVelUpgrade, 6) +
+                    starfarerLvl2;
+                effectiveDriveRatingSpeed =
+                    effectiveDriveRatingDistance + trimmingCourse;
+
+                document.getElementById(
+                    "effectiveDriveRatingDistance",
+                ).innerText = effectiveDriveRatingDistance;
+                document.getElementById("effectiveDriveRatingSpeed").innerText =
+                    effectiveDriveRatingSpeed;
+
+                // update drill distance options
+                drillDistanceEl = document.getElementById("drillDistance");
+                selectedDrillDistance = Math.min(
+                    Math.max(Number(drillDistanceEl.value), minDrillRange),
+                    effectiveDriveRatingDistance,
+                );
+                drillDistanceEl.innerHTML = "";
+                for (
+                    let i = minDrillRange;
+                    i <= effectiveDriveRatingDistance;
+                    i++
+                ) {
+                    drillDistanceOptionHTML = `<option value="${i}"${i === selectedDrillDistance ? ' selected="selected"' : ""}>${i} Hex${i === 1 ? "" : "es"}</option>\n`;
+                    drillDistanceEl.innerHTML += drillDistanceOptionHTML;
+                }
+            }
+
+            function updateDrillDuration() {
+                drillDistance = Number(
+                    document.getElementById("drillDistance").value,
+                );
+                hasStarfarerLvl2 =
+                    document.getElementById("starfarerLvl").value === "2";
+
+                drillDuration =
+                    (drillDistance * 6) /
+                    effectiveDriveRatingSpeed /
+                    (hasStarfarerLvl2 ? 2 : 1);
+
+                document.getElementById("drillDuration").innerText =
+                    formatDaysAsDaysAndHours(drillDuration);
+            }
+
+            let updateProbsSemaphore = false;
+            async function updateProbs() {
+                if (updateProbsSemaphore) {
+                    return;
+                }
+                updateProbsSemaphore = true;
+
+                totalSystems = Number(
+                    document.getElementById("totalSystems").value,
+                );
+                hasPrecogNavChamber =
+                    document.getElementById("precogNavChamber").checked;
+
+                if (totalSystems !== currentProbsFileNumber) {
+                    currentProbsFileNumber = totalSystems;
+                    probsFile = await getProbsFile();
+                }
+
+                if (probsFile === undefined) {
+                    console.log("probs file is undefined!");
+                    updateProbsSemaphore = false;
+                    return;
+                }
+
+                if (isAutoSuccess()) {
+                    probs = autoSuccessProbs;
+                    updateProbsElements();
+                } else {
+                    probsKey = `${currentProbsFileNumber},${spikeDrillMinSuccessfulRoll},${hasPrecogNavChamber ? "1" : "0"}`;
+                    probs = probsFile[probsKey];
+
+                    updateProbsElements();
+                }
+
+                updateProbsSemaphore = false;
+            }
+
+            async function getProbsFile() {
+                const url = `https://opbb.github.io/spikeDriveProbsData/${currentProbsFileNumber}TotalSystemsSpikeProbs.json`;
+                try {
+                    const response = await fetch(url);
+
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}`);
+                    }
+
+                    probsFileData = await response.json();
+
+                    return probsFileData;
+                } catch (error) {
+                    console.error(error.message);
+                    return undefined;
+                }
+            }
+
+            function updateProbsElements() {
+                for (const outcomeName of outcomeNames) {
+                    // Total probs
+                    totalProbEl = document.getElementById(
+                        outcomeName + "TotalProb",
+                    );
+                    totalProb = probs[outcomeName]["totalProb"];
+                    totalProbEl.innerText = formatProbAsPercent(totalProb);
+                    avgSystemsDisabledEl = document.getElementById(
+                        outcomeName + "AvgSysDisabled",
+                    );
+                    avgTotalDurationEl = document.getElementById(
+                        outcomeName + "AvgTotalDuration",
+                    );
+
+                    if (outcomeName !== "success" && isAutoSuccess()) {
+                        avgSystemsDisabledEl.innerText = "N/A";
+                        avgTotalDurationEl.innerText = "N/A";
+                    } else {
+                        // Systems disabled
+                        avgSystemsDisabled = getAvgValueOfProbArray(
+                            probs[outcomeName]["numSystemsDisabledProbs"],
+                        );
+                        avgSystemsDisabledEl.innerText = String(
+                            roundToXDecimalPlaces(avgSystemsDisabled, 1),
+                        );
+                        // Spike duration
+                        avgTotalSpikeDurations = getAvgValueOfProbArray(
+                            probs[outcomeName]["spikeDurationProbs"],
+                        );
+                        avgTotalDuration =
+                            drillDuration * avgTotalSpikeDurations;
+                        avgTotalDurationEl.innerText =
+                            formatDaysAsDaysAndHours(avgTotalDuration);
+                    }
+                }
+                updateSystemsDisabledChart(
+                    successSysDisabledChart,
+                    probs["success"]["numSystemsDisabledProbs"],
+                );
+                updateSystemsDisabledChart(
+                    recoverableFailureSysDisabledChart,
+                    probs["recoverableFailure"]["numSystemsDisabledProbs"],
+                );
+                updateSystemsDisabledChart(
+                    catastrophicFailureSysDisabledChart,
+                    probs["catastrophicFailure"]["numSystemsDisabledProbs"],
+                );
+                updateDrillDurationsChart(
+                    successDrillDurationsChart,
+                    probs["success"]["spikeDurationProbs"],
+                );
+                updateDrillDurationsChart(
+                    recoverableFailureDrillDurationsChart,
+                    probs["recoverableFailure"]["spikeDurationProbs"],
+                );
+                updateDrillDurationsChart(
+                    catastrophicFailureDrillDurationsChart,
+                    probs["catastrophicFailure"]["spikeDurationProbs"],
+                );
+                updateTotalProbsChart(successTotalProbChart, "success");
+                updateTotalProbsChart(
+                    recoverableFailureTotalProbChart,
+                    "recoverableFailure",
+                );
+                updateTotalProbsChart(
+                    catastrophicFailureTotalProbChart,
+                    "catastrophicFailure",
+                );
+            }
+
+            function updateSystemsDisabledChart(chart, newData) {
+                chart.data.labels = generateRange(0, newData.length, 1);
+                chart.data.datasets[0].data = newData.map((prob) => prob * 100);
+                chart.update();
+            }
+
+            function updateDrillDurationsChart(chart, newData) {
+                columnCount = Math.min(
+                    newData.length,
+                    drillDurationsChartCutoff + 1,
+                );
+                chart.data.labels = generateRange(1, columnCount, 1).map(
+                    (numDrillDurations) => numDrillDurations * drillDuration,
+                );
+                chart.data.datasets[0].data = newData
+                    .slice(1, columnCount + 1)
+                    .map((prob) => prob * 100);
+                chart.update();
+            }
+
+            function updateTotalProbsChart(chart, outcome) {
+                switch (outcome) {
+                    case "success":
+                        newData = [
+                            probs["success"]["totalProb"],
+                            probs["recoverableFailure"]["totalProb"],
+                            probs["catastrophicFailure"]["totalProb"],
+                        ];
+                        break;
+                    case "recoverableFailure":
+                        newData = [
+                            probs["recoverableFailure"]["totalProb"],
+                            probs["catastrophicFailure"]["totalProb"],
+                            probs["success"]["totalProb"],
+                        ];
+                        break;
+                    case "catastrophicFailure":
+                        newData = [
+                            probs["catastrophicFailure"]["totalProb"],
+                            probs["success"]["totalProb"],
+                            probs["recoverableFailure"]["totalProb"],
+                        ];
+                        break;
+                    default:
+                        throw new Error("invalid outcome");
+                }
+                chart.data.datasets[0].data = newData;
+                chart.update();
+            }
+
+            createSystemsDisabledChart;
+            // === ONCHANGE FUNCTIONS ===
+
+            function spikeDriveChanged() {
+                updateEffectiveDriveRatings();
+                updateDrillDuration();
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function totalSystemsChanged() {
+                totalSystemsEl = document.getElementById("totalSystems");
+                totalSystems = Number(totalSystemsEl.value);
+                totalSystems = Math.min(
+                    Math.max(Math.round(totalSystems), minTotalSystems),
+                    maxTotalSystems,
+                );
+                totalSystemsEl.value = totalSystems;
+
+                updateProbs();
+            }
+
+            function drillDistanceChanged() {
+                updateDrillDuration();
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function rutterAgeChanged() {
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function intModChanged() {
+                updateSpikeDrillCheckMod();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function pilotLvlChanged() {
+                updateSpikeDrillCheckMod();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function starfarerLvlChanged() {
+                updateEffectiveDriveRatings();
+                updateSpikeDrillCheckMod();
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateAutoSuccessDCThreshhold();
+                updateDrillDuration();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function advNavCompChanged() {
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function drillCourseRegChanged() {
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function precogNavChamberChanged() {
+                updateAutoSuccessDCThreshhold();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function drillVelUpgradeChanged() {
+                updateEffectiveDriveRatings();
+                updateDrillDuration();
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function drillActivationRushedChanged() {
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function trimmingCourseChanged() {
+                updateEffectiveDriveRatings();
+                updateDrillDuration();
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            // === UTIL FUNCTIONS ===
+
+            async function initializeValues() {
+                // The order is important, because some values rely on one another
+                updateEffectiveDriveRatings();
+                updateSpikeDrillCheckMod();
+                updateSpikeDrillCheckDC();
+                updateSpikeDrillMinSuccessfulRoll();
+                updateDrillDuration();
+                updateAutoSuccessDCThreshhold();
+                updateSpikeDrillSuccessChance();
+
+                updateProbs();
+            }
+
+            function formatDaysAsDaysAndHours(days) {
+                onlyDays = Math.floor(days);
+                onlyHours = Math.round((days - onlyDays) * 24);
+
+                if (onlyHours === 24) {
+                    onlyDays += 1;
+                    onlyHours = 0;
+                }
+
+                daysString =
+                    String(onlyDays) + " day" + (onlyDays === 1 ? "" : "s");
+                hoursString =
+                    String(onlyHours) + " hour" + (onlyHours === 1 ? "" : "s");
+
+                return (
+                    (onlyDays !== 0 || onlyHours === 0 ? daysString : "") +
+                    (onlyDays !== 0 && onlyHours !== 0 ? ", " : "") +
+                    (onlyHours !== 0 ? hoursString : "")
+                );
+            }
+
+            function formatProbAsPercent(prob) {
+                return (
+                    String(
+                        roundToXDecimalPlaces(prob * 100, roundPercentagesTo),
+                    ) + "%"
+                );
+            }
+
+            // Assumes that the input is an array of probabilities representing that the outcome is equal to their index.
+            // For instance, if array[4] is .5, that means there's a 50% chance the outcome is 4.
+            function getAvgValueOfProbArray(probsArray) {
+                if (!Array.isArray(probsArray)) {
+                    console.log(
+                        "Given input for 'getAvgValueOfProbArray' is not an array.",
+                    );
+                    return;
+                }
+
+                avgValue = 0;
+                probSum = probsArray[0];
+                for (let i = 1; i < probsArray.length; i++) {
+                    avgValue += i * probsArray[i];
+                    probSum += probsArray[i];
+                }
+
+                return avgValue;
+            }
+
+            function roundToXDecimalPlaces(
+                numberToRound,
+                numberOfDecimalPlaces,
+            ) {
+                return (
+                    Math.round(
+                        numberToRound * Math.pow(10, numberOfDecimalPlaces),
+                    ) / Math.pow(10, numberOfDecimalPlaces)
+                );
+            }
+
+            function isAutoSuccess() {
+                rutterAge = document.getElementById("rutterAge").value;
+                hasDrillCourseReg =
+                    document.getElementById("drillCourseReg").checked;
+                drillDistance = Number(
+                    document.getElementById("drillDistance").value,
+                );
+                return (
+                    autoSuccessDCThreshhold >= spikeDrillCheckDC ||
+                    (hasDrillCourseReg &&
+                        rutterAge !== "blindPunch" &&
+                        drillDistance <= pilotLvl * 2) ||
+                    spikeDrillMinSuccessfulRoll <= 2
+                );
+            }
+
+            function formatLabelAsPercent(context) {
+                let label = context.dataset.label || "";
+
+                if (label) {
+                    label += ": ";
+                }
+                if (context.parsed.y !== null) {
+                    label +=
+                        roundToXDecimalPlaces(
+                            context.parsed.y,
+                            roundPercentagesTo,
+                        ) + "%";
+                }
+                return label;
+            }
+
+            function formatSysDisabledTooltipTitle(context) {
+                title = "";
+                systemsDisabledCount = context[0].parsed.x;
+                if (systemsDisabledCount !== null) {
+                    title +=
+                        systemsDisabledCount +
+                        ` system${systemsDisabledCount === 1 ? "" : "s"} disabled`;
+                }
+                return title;
+            }
+
+            function formatSpikeDurationTooltipTitle(context) {
+                title = "";
+                totalSpikeDurations = context[0].parsed.x + 1;
+                if (totalSpikeDurations !== null) {
+                    title += `${formatDaysAsDaysAndHours(totalSpikeDurations * drillDuration)} in Metaverse`;
+                }
+                return title;
+            }
+
+            function createSystemsDisabledChart(chartEl, isCatastrophicFail) {
+                labels = [0];
+                return new Chart(chartEl, {
+                    type: "bar",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Probability",
+                                data: [0],
+                                borderWidth: 1,
+                                backgroundColor: "white",
+                            },
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: "Probability (%)",
+                                },
+                                beginAtZero: true,
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: `# of systems ${isCatastrophicFail ? "destroyed" : "disabled"}`,
+                                },
+                            },
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                            tooltip: {
+                                usePointStyle: false,
+                                callbacks: {
+                                    title: formatSysDisabledTooltipTitle,
+                                    label: formatLabelAsPercent,
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+
+            function createDrillDurationsChart(chartEl) {
+                labels = [0];
+                return new Chart(chartEl, {
+                    type: "bar",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Probability",
+                                data: [0],
+                                borderWidth: 1,
+                                backgroundColor: "white",
+                            },
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: "Probability (%)",
+                                },
+                                beginAtZero: true,
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: "# of days in metaverse",
+                                },
+                            },
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                            tooltip: {
+                                usePointStyle: false,
+                                callbacks: {
+                                    label: formatLabelAsPercent,
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+
+            function createTotalProbChart(chartEl, outcome) {
+                switch (outcome) {
+                    case "success":
+                        labels = [
+                            "Success",
+                            "Recoverable Failure",
+                            "Catastrophic Failure",
+                        ];
+                        break;
+                    case "recoverableFailure":
+                        labels = [
+                            "Recoverable Failure",
+                            "Catastrophic Failure",
+                            "Success",
+                        ];
+                        break;
+                    case "catastrophicFailure":
+                        labels = [
+                            "Catastrophic Failure",
+                            "Success",
+                            "Recoverable Failure",
+                        ];
+                        break;
+                    default:
+                        throw new Error("invalid outcome");
+                }
+                return new Chart(chartEl, {
+                    type: "doughnut",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Probability",
+                                data: [0],
+                                backgroundColor: [
+                                    "white",
+                                    "#222222",
+                                    "#222222",
+                                ],
+                                hoverOffset: 4,
+                            },
+                        ],
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                            tooltip: {
+                                usePointStyle: false,
+                                callbacks: {
+                                    label: undefined,
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+
+            function generateRange(start, end, step) {
+                range = [];
+                for (let i = start; i < end; i += step) {
+                    range.push(i);
+                }
+                return range;
+            }
+
+            // Initialize all values correctly
+            initializeValues();
+        </script>
+    </body>
+</html>

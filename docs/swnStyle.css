@@ -1,0 +1,506 @@
+:root {
+    --mobile-breakpoint: 1000px;
+    --min-halfscreen-width: calc(var(--mobile-breakpoint) / 2);
+    --default-padding: 10px;
+    --container-spacing: 10px;
+    --desktop-border-width: 5px;
+    --mobile-border-width: 3px;
+    --default-color: white;
+    --border-color: white;
+    --container-header-color: black;
+    --container-bkg-color: #222222;
+    --calculated-value-bkg-color: #444444;
+    --hover-bkg-color: black;
+    --selected-color: black;
+    --selected-bkg-color: #e0e0e0;
+    --selected-hover-color: white;
+    --options-font-size: 1.15em;
+}
+
+@font-face {
+    font-family: Gayatri;
+    src: url(/assets/fonts/Gayatri.ttf);
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: CrimsonText;
+    src: url(/assets/fonts/CrimsonText-Regular.ttf);
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: CrimsonText;
+    src: url(/assets/fonts/CrimsonText-Bold.ttf);
+    font-style: normal;
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: CrimsonText;
+    src: url(/assets/fonts/CrimsonText-Italic.ttf);
+    font-style: italic;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: CrimsonText;
+    src: url(/assets/fonts/CrimsonText-BoldItalic.ttf);
+    font-style: italic;
+    font-weight: bold;
+}
+
+html {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: black;
+    color: white;
+    font-family: CrimsonText, sans-serif;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+}
+
+h1 {
+    font-family: Gayatri, sans-serif;
+}
+
+h2 {
+    font-family: Gayatri, sans-serif;
+}
+
+h3 {
+    font-family: Gayatri, sans-serif;
+}
+
+h4 {
+    font-family: Gayatri, sans-serif;
+}
+
+h5 {
+    font-family: Gayatri, sans-serif;
+}
+
+h6 {
+    font-family: Gayatri, sans-serif;
+}
+
+p {
+    padding: var(--default-padding);
+    margin: 0;
+}
+
+.rounded-container {
+    background-color: var(--container-bkg-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.rounded-container-header {
+    margin: 0;
+    line-height: 0.5em;
+    padding-top: 0.2em;
+    padding-bottom: 0.15em;
+    background-color: var(--border-color);
+    color: var(--container-header-color);
+    text-align: center;
+    font-size: 1.25em;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.rounded-container-body {
+    margin: 0;
+    padding: var(--default-padding);
+    width: calc(100% - var(--default-padding) * 2);
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.rounded-container-footer {
+    margin: 0;
+    padding: var(--default-padding);
+    background-color: var(--calculated-value-bkg-color);
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.calculated-value {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.chart-container {
+    text-align: center;
+    margin: 0 0 1em;
+}
+
+.doughnut-chart-container {
+    width: 50%;
+    padding: 0 25% 0;
+}
+
+.calculated-value-label {
+    text-align: center;
+    font-size: 1em;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: 0.2em;
+}
+
+.column-header {
+    text-align: center;
+    text-decoration: underline;
+    font-size: 1.15em;
+    margin: 0.2em 0 0.05em;
+}
+
+.column-descriptor {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.9em;
+    margin: 0.05em 0 0.3em;
+    line-height: 0.9em;
+}
+
+@media (max-width: 1000px) {
+    /* CSS that should be displayed if width is equal to or less than 1000px goes here */
+
+    body {
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+
+    .rounded-container {
+        font-size: 1.25em;
+        border: var(--mobile-border-width) solid var(--border-color);
+        border-radius: calc(var(--mobile-border-width) * 2);
+        width: calc(100% - var(--mobile-border-width) * 2);
+    }
+
+    .rounded-container-header {
+        border-bottom: var(--mobile-border-width) solid var(--border-color);
+    }
+
+    .rounded-container-footer {
+        border-top: var(--mobile-border-width) solid var(--border-color);
+        border-radius: 0 0 var(--mobile-border-width) var(--mobile-border-width);
+    }
+
+    .fullscreen-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dynamic-halfscreen-container {
+        padding: var(--container-spacing) 0;
+        width: 100%;
+    }
+
+    .dynamic-fullscreen-container {
+        padding: var(--container-spacing) 0;
+        width: 100%;
+    }
+
+    .title {
+        font-size: 7vmin;
+    }
+
+    .columns-container {
+        display: block;
+        padding: 0;
+        margin: 0;
+    }
+
+    .two-columns-left {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.25em;
+    }
+
+    .two-columns-right {
+        width: 100%;
+        border-top: 1px solid var(--border-color);
+        padding-top: 0.25em;
+    }
+
+    .three-columns-left {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.25em;
+    }
+
+    .three-columns-middle {
+        width: 100%;
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.25em;
+        padding-top: 0.25em;
+    }
+
+    .three-columns-right {
+        width: 100%;
+        border-top: 1px solid var(--border-color);
+        padding-top: 0.25em;
+    }
+
+    .chart-container {
+        min-height: 45vw;
+    }
+}
+
+@media (min-width: 1001px) {
+    /* CSS that should be displayed if width is greater than 1000px goes here */
+
+    body {
+        padding-left: 4%;
+        padding-right: 4%;
+    }
+
+    .rounded-container {
+        font-size: 1.5em;
+        border: var(--desktop-border-width) solid var(--border-color);
+        border-radius: calc(var(--desktop-border-width) * 2);
+        width: calc(100% - var(--desktop-border-width) * 2);
+        height: calc(100% - var(--desktop-border-width) * 2);
+    }
+
+    .rounded-container-header {
+        border-bottom: var(--desktop-border-width) solid var(--border-color);
+    }
+
+    .rounded-container-footer {
+        border-top: var(--desktop-border-width) solid var(--border-color);
+        border-radius: 0 0 var(--desktop-border-width)
+            var(--desktop-border-width);
+    }
+
+    .fullscreen-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .dynamic-halfscreen-container {
+        padding: var(--container-spacing);
+        width: calc(50% - var(--container-spacing) * 2);
+    }
+
+    .dynamic-fullscreen-container {
+        padding: var(--container-spacing);
+        width: calc(100% - var(--container-spacing) * 2);
+    }
+
+    .title {
+        font-size: 10vmin;
+    }
+
+    .columns-container {
+        display: flex;
+        flex-direction: row;
+        padding: 0;
+        margin: 0;
+    }
+
+    .two-columns-left {
+        padding-right: var(--default-padding);
+        border-right: 1px solid var(--border-color);
+        width: calc(50% - var(--default-padding) - 1px);
+    }
+
+    .two-columns-right {
+        padding-left: var(--default-padding);
+        border-left: 1px solid var(--border-color);
+        width: calc(50% - var(--default-padding) - 1px);
+    }
+
+    .three-columns-left {
+        padding-right: var(--default-padding);
+        border-right: 1px solid var(--border-color);
+        width: calc((100% / 3) - (var(--default-padding) + 1px));
+    }
+
+    .three-columns-middle {
+        padding: 0 var(--default-padding);
+        border-right: 1px solid var(--border-color);
+        border-left: 1px solid var(--border-color);
+        width: calc((100% / 3) - (var(--default-padding) + 1px) * 2);
+    }
+
+    .three-columns-right {
+        padding-left: var(--default-padding);
+        border-left: 1px solid var(--border-color);
+        width: calc((100% / 3) - (var(--default-padding) + 1px));
+    }
+
+    .chart-container {
+        height: 15vw;
+    }
+}
+
+.test-color {
+    background-color: red;
+    width: 100%;
+}
+
+.container-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-table-row {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    vertical-align: middle;
+}
+
+.container-table-row-label {
+    text-align: left;
+    font-weight: bold;
+}
+
+.container-table-row-options {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.container-table-row-option {
+    flex-grow: 1;
+}
+
+.container-table-checkbox {
+    display: none;
+}
+
+.container-table-checkbox:checked + label:hover {
+    background-color: var(--selected-hover-color);
+}
+
+.container-table-checkbox:checked + label {
+    background-color: var(--selected-bkg-color);
+    color: var(--selected-color);
+}
+
+.container-table-checkbox-label {
+    background-color: var(--container-bkg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: var(--options-font-size);
+    padding: calc(var(--default-padding) / 2) var(--default-padding);
+    margin: calc(var(--default-padding) / 2);
+    display: inline-block;
+    width: calc(
+        100% - (var(--default-padding) + (var(--default-padding) / 2) + 1px) * 2
+    );
+
+    /* PREVENT TEXT FROM BEING SELECTED */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.container-table-checkbox:not(:checked) + label:hover {
+    background-color: var(--hover-bkg-color);
+}
+
+.container-table-select {
+    text-align: center;
+    font-family: inherit;
+    appearance: none;
+    width: 100%;
+    font-size: var(--options-font-size);
+    padding: calc(var(--default-padding) / 2) var(--default-padding);
+    background-color: var(--container-bkg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--default-color);
+    cursor: pointer;
+}
+
+.footer-note {
+    width: 100%;
+    padding: 0;
+    margin: 1em, 0, 1em;
+    font-style: italic;
+    font-size: 1.25em;
+    text-align: center;
+}
+
+/* unvisited link */
+.footer-note > a:link {
+    color: AliceBlue;
+}
+
+/* visited link */
+.footer-note > a:visited {
+    color: PowderBlue;
+}
+
+/* mouse over link */
+.footer-note > a:hover {
+    color: SkyBlue;
+}
+
+/* selected link */
+.footer-note > a:active {
+    color: SkyBlue;
+}
+
+.container-table-select:hover {
+    background-color: var(--hover-bkg-color);
+}
+
+.container-table-number-input {
+    text-align: center;
+    font-family: inherit;
+    appearance: none;
+    width: calc(100% - (var(--default-padding) + 1px) * 2);
+    font-size: var(--options-font-size);
+    padding: calc(var(--default-padding) / 2) var(--default-padding);
+    background-color: var(--container-bkg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--default-color);
+    cursor: pointer;
+}
+
+.container-table-number-input:hover {
+    background-color: var(--hover-bkg-color);
+}
+
+.container-table-number-input:focus {
+    background-color: var(--hover-bkg-color);
+}
+
+/* PREVENT TEXT SELECTION */
+
+.prevent-select {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+/* HIDE NUMBER INCREMENT/DECREMENT ARROWS */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
