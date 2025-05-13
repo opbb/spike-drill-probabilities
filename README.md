@@ -1,5 +1,5 @@
-# Spike-Drive Probabilities Calculator
-*[Click here](https://oliverbaerbenson.dev/spike-drive-probabilities-calculator) to use the calculator.*
+# Spike-Drill Probabilities
+*[Try it out!](https://oliverbaerbenson.dev/spike-drill-probabilities)*
 
 TL;DR: A program to calculate the probability of catastrophic failure for a roll which can recur in a tabletop roleplaying game.
 
